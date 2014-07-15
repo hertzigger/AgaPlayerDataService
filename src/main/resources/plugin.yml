@@ -1,0 +1,5 @@
+name: AgaPlayerDataService
+main: com.craftaga.agaplayerdataservice.AgaPlayerDataService
+version: 0.1.0
+depend: [AgaBacbone]
+softdepend: [mcMMO, Vault]
