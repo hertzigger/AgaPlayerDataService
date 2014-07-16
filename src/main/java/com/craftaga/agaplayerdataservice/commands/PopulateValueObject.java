@@ -4,36 +4,28 @@ import com.craftaga.agabacbone.commands.Command;
 import com.craftaga.agabacbone.commands.IValueHolderCommand;
 import com.craftaga.agabacbone.commands.queue.CommandQueue;
 import com.craftaga.agabacbone.session.ISessionHandler;
+import com.craftaga.agaplayerdataservice.PlayerDataClientHandler;
 import com.craftaga.agaplayerdataservice.valueobjects.IPlayerData;
 import com.craftaga.agaplayerdataservice.valueobjects.IPlayers;
 import com.craftaga.agaplayerdataservice.valueobjects.PlayerData;
 import com.craftaga.agaplayerdataservice.valueobjects.Players;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.bukkit.entity.Player;
 
 /**
- * description
+ * Build value object for all players ready to be json-ised and sent
  *
  * @author Jonathan
  * @since 16/07/2014
  */
-public class PopulateValueObject extends Command implements IValueHolderCommand<IPlayers> {
+public class PopulateValueObject extends Command implements IValueHolderCommand<PlayerDataClientHandler> {
 
-    private IPlayers players;
+    private PlayerDataClientHandler playerDataClientHandler;
     private ISessionHandler sessionHandler;
 
     public PopulateValueObject(CommandQueue commandQueue, ISessionHandler sessionHandler) {
         super(commandQueue);
         this.sessionHandler = sessionHandler;
-    }
-
-    @Override
-    public void setValue(IPlayers players) {
-        this.players = players;
-    }
-
-    @Override
-    public IPlayers getValue() {
-        return players;
     }
 
     @Override
@@ -46,6 +38,16 @@ public class PopulateValueObject extends Command implements IValueHolderCommand<
             playerData.setUsername(player.getPlayerListName());
             thePlayers.addPlayer(playerData);
         }
-        this.players = thePlayers;
+        playerDataClientHandler = new PlayerDataClientHandler(thePlayers);
+    }
+
+    @Override
+    public void setValue(PlayerDataClientHandler playerDataClientHandler) {
+        this.playerDataClientHandler = playerDataClientHandler;
+    }
+
+    @Override
+    public PlayerDataClientHandler getValue() {
+        return playerDataClientHandler;
     }
 }

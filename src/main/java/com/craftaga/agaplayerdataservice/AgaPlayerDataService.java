@@ -3,6 +3,7 @@ package com.craftaga.agaplayerdataservice;
 import com.craftaga.agabacbone.concurrent.IPluginManager;
 import com.craftaga.agabacbone.concurrent.PluginManager;
 import com.craftaga.agabacbone.concurrent.schedule.GlobalScheduledTimerHandle;
+import com.craftaga.agaplayerdataservice.concurrent.timer.SendToRmoteServer;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -25,7 +26,7 @@ public class AgaPlayerDataService extends JavaPlugin {
         stringContext.refresh();
 
         pluginManager = PluginManager.getInstance();
-        pluginManager.scheduleTimerHandlerAtFixedRate(new GlobalScheduledTimerHandle());
+        pluginManager.scheduleTimerHandlerAtFixedRate(new GlobalScheduledTimerHandle(new SendToRmoteServer(stringContext, pluginManager), 5000));
         this.getLogger().info("AgaPlayerDataService Enabled");
     }
 }
