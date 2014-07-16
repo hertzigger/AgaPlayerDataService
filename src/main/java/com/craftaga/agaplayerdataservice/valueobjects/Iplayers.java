@@ -6,5 +6,6 @@ package com.craftaga.agaplayerdataservice.valueobjects;
  * @author Jonathan
  * @since 15/07/2014
  */
-public interface Iplayers {
+public interface IPlayers {
+    void addPlayer(IPlayerData playerData);
 }
